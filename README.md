@@ -7,8 +7,8 @@
 
 | 筆記本 | 用途 | 開啟 |
 | --- | --- | --- |
-| RAG01 | 建立資料庫，輸出 `rag-data.zip` | [Open in Colab](https://colab.research.google.com/github/seankohjs/genaimod-rag-infradocs/blob/ad74dce7676c0bcbe1070fb739488eeb5e094d33/RAG01_InfraDocs_%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E5%BA%AB.ipynb) |
-| **RAG02** | **繳交用：下載 ZIP、文件問答及 Gradio** | [Open in Colab](https://colab.research.google.com/github/seankohjs/genaimod-rag-infradocs/blob/ad74dce7676c0bcbe1070fb739488eeb5e094d33/RAG02_InfraDocs_%E5%B0%8D%E8%A9%B1%E6%A9%9F%E5%99%A8%E4%BA%BA.ipynb) |
+| RAG01 | 建立資料庫，輸出 `rag-data.zip` | [Open in Colab](https://colab.research.google.com/github/seankohjs/genaimod-rag-infradocs/blob/56e1a71a4f0d2ee879867fd3b09316e06a8c8674/RAG01_InfraDocs_%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E5%BA%AB.ipynb) |
+| **RAG02** | **繳交用：下載 ZIP、文件問答及 Gradio** | [Open in Colab](https://colab.research.google.com/github/seankohjs/genaimod-rag-infradocs/blob/56e1a71a4f0d2ee879867fd3b09316e06a8c8674/RAG02_InfraDocs_%E5%B0%8D%E8%A9%B1%E6%A9%9F%E5%99%A8%E4%BA%BA.ipynb) |
 
 ## 執行方式
 
@@ -18,7 +18,7 @@
 4. 在 Gradio 提問；「只看檢索」不需金鑰，「依文件回答」會呼叫 Groq。
 5. 閱讀右側原文核對引用，填寫第 7 節的實測觀察，再分享自己的 Colab 副本。
 
-兩份皆保留課程固定四行套件。RAG01 不需要 API key；RAG02 使用 AISuite 與 Groq `openai/gpt-oss-20b`，金鑰不寫入程式。
+兩份皆保留課程固定四行套件。Colab 安裝節保留平台內建 NumPy、pandas、Matplotlib，其餘應用套件固定版本；本機參考版本見 `requirements.txt`。若需要重啟，選 Runtime → Restart session 後全部重跑。RAG01 不需要 API key；RAG02 使用 AISuite 與 Groq `openai/gpt-oss-20b`，金鑰不寫入程式。
 問題、必要近期對話與相關原文片段會傳至 Groq；對話保留最近四輪，每個 Gradio session 分開處理。
 
 下載資料庫不需要登入：[固定版本 rag-data.zip](https://raw.githubusercontent.com/seankohjs/genaimod-rag-infradocs/de21d3dbb6c45aeb43d0e5ded19f5be41593eaec/rag-data.zip)。
@@ -30,7 +30,7 @@ RAG02 已內建此網址與驗證值，不需手動上傳。ZIP 以 FAISS + JSON
 2026-10-31 在 macOS / Python 3.12 環境中，兩份 notebook 各 7 個程式儲存格皆執行成功。
 RAG02 從空白工作目錄下載本儲存庫的公開 ZIP；五個繁體中文問題在前四名找到對應英文依據，另有 V0 追問檢索檢查。
 Gradio 的實際向量檢索、清除對話與缺少金鑰提示已測試；AISuite / Groq 請求格式以明確標記的 HTTP 替身測試。
-**尚未在學生 Colab 內使用真實 Groq 金鑰測試生成回答**，筆記本第 7 節因此保留待填欄位。
+**2026-11-01 學生已提供四張實際 Gradio 生成回答截圖**，第 7 節已依結果填妥並記錄原文核對發現的問題。
 保留的表格是實際檢索輸出，未放入假冒的 LLM 回答；已移除失效的本機介面及純本機診斷路徑。
 
 RAG 的引用提示不是事實保證；請核對原文是否支持回答，尤其是部署效能或文件範圍以外的問題。
@@ -53,3 +53,8 @@ RAG 的引用提示不是事實保證；請核對原文是否支持回答，尤�
 vLLM 文件採 Apache-2.0；ZIP 內保留原文及 `LICENSE-vllm.txt`。新撰寫的程式與說明採本儲存庫 MIT 授權，原始文件依其自身授權。
 流程參考老師的 [RAG01](https://github.com/yenlung/AI-Demo/blob/master/【Demo06a】RAG01_打造向量資料庫.ipynb) 與 [RAG02](https://github.com/yenlung/AI-Demo/blob/master/【Demo06b】RAG02_打造_RAG_系統.ipynb)。
 AI 協助選題、Prompt、程式實作與驗證；個人測試觀察及課程繳交由學生完成。
+
+2026-11-01 更新：已於隔離環境重現 NumPy 2.1.3 載入狀態搭配 2.2.6 原始檔的 `numpy.ufunc` 匯入錯誤。
+安裝節現在保留 Colab 內建數值套件並檢查舊版本載入狀態。兩份 notebook 另於本機 Python 3.12 / NumPy 2.1.3 各 7 個程式儲存格執行成功；這不等同已在 Colab Python 3.13 驗證。
+
+學生實測涵蓋 prefill／decode、cache_salt、V0 追問及資料不足題；部分答案有引用格式或範圍解讀問題，已於第 7 節保留並更正說明。原始個人截圖保留在繳交內容，未公開上傳到本儲存庫。
